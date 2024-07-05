@@ -1,0 +1,241 @@
+javascript: (function() {
+    const styleses = {};
+    document.querySelectorAll("link[rel=stylesheet]").forEach((s, idx) => (styleses[idx] = s));
+    const datas = [];
+    Object.keys(styleses).forEach((idx) => {
+        const a = document.createElement("a");
+        a.href = styleses[idx].href;
+        datas.push([styleses[idx], a.hostname, a.pathname.split("/").pop(), styleses[idx].media]);
+    });
+
+    //Création de l'affichage
+    let hohoho = document.createElement("div");
+    hohoho.id = "css-me-not";
+
+    const styles = `
+            #css-me-not
+            {
+                background:#ffd400;
+                padding:10px;
+                position:fixed;
+                top: 10%;
+                left:10%;
+                max-width: 40%;
+                min-width: 560px;
+                max-height: 80%;
+                min-height: 17%;
+                overflow: auto;
+                box-shadow: 0 4px 8px ;
+                z-index:99999;
+                flex-direction: colum;
+                resize:both;
+                border:10px solid #FFD400;
+            }
+
+            #css-me-not table
+            {
+                width:100%;
+                border-collapse:collapse;
+                margin-top:2em;
+            }
+
+            #css-me-not th
+            {
+                border: 1px solid #ddd;
+                padding: 8px;
+                background: black ;
+                color:white;
+            }
+
+            #css-me-not td
+            {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #css-me-not table tr:nth-child(even)
+            {
+                background:#fff;
+            }
+
+            #css-me-not table tr:nth-child(odd)
+            {
+                background:#eee;
+            }
+
+            #css-me-not table tr th, #css-me-not table tr td
+            {
+                padding:0.5em;
+            }
+
+            #css-me-not .close-btn
+            {
+                position: absolute;
+                top: 0px;
+                left: 10px;
+                background: none;
+                border:none;
+                font-size:1.5em;
+                font-weight:bold;
+                cursor: pointer;
+                color:#333;
+                padding: 5px;
+            }
+
+            #css-me-not .close-btn:hover
+            {
+                color: #000;
+            }
+
+            #css-me-not .close-btn img
+            {
+                margin-top:5px;
+                margin-bottom:1pm;
+                width: 20px;
+            }
+            `;
+            
+
+    const styleSheet = document.createElement( "style" );
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild( styleSheet );
+
+    //Création du Bouton pour cacher
+    let closeButton = document.createElement("button")
+    closeButton.className = " close-btn";
+    let closeImage = document.createElement("img");
+    closeImage.src = "https://cdn-icons-png.flaticon.com/128/4855/4855030.png";
+    closeButton.appendChild(closeImage);
+    closeButton.onclick = () => hohoho.style.display = 'none';
+    
+
+
+    //Création du Bouton pour Réouvrire l'affichage
+    let showButton = document.createElement("button");
+    showButton.innerText = "CSS LIST"; 
+    showButton.style.display = "none";
+    showButton.style.backgroundColor = "#ffd400"; 
+    showButton.style.color = "black"; 
+    showButton.style.border = "none";
+    showButton.style.padding = "10px 20px"; 
+    showButton.style.borderRadius = "5px"; 
+    showButton.style.position = "fixed"; 
+    showButton.style.top = "20px"; 
+    showButton.style.right = "20px"; 
+    showButton.style.zIndex = "100000"; 
+    showButton.onclick = () => hohoho.style.display = 'block';
+    document.body.appendChild(showButton);
+
+    //Evenement pour l'aparition du bouton d'ouverture de l'affichage
+    closeButton.addEventListener('click', function() {
+        showButton.style.display = 'block';
+    });
+
+    showButton.addEventListener('click', function() {
+        showButton.style.display = 'none';
+    });
+
+    //Création du disign du tableau 
+    let tableContainer = document.createElement("div");
+    tableContainer.id = "table-containers";
+
+    let table = document.createElement("table");
+    let tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    let tr = document.createElement("tr");
+    tbody.appendChild(tr);
+    let th = document.createElement("th");
+    tr.appendChild(th);
+    th.append("#");
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.append("Action");
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.append("Media");
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.append("Hôte");
+    th = document.createElement("th");
+    tr.appendChild(th);
+    th.append("Nom du fichier");
+    let i = 1;
+    datas.forEach((d) => {
+        let tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        let td = document.createElement("td");
+        tr.appendChild(td);
+        td.append(i);
+        i = i + 1;
+        
+        td = document.createElement("td");
+        tr.appendChild(td);
+        let button = document.createElement("button");
+        button.innerText = "Désactiver";
+
+        button.onclick = (e) => {
+            if (e.target.innerText === "Désactiver") {
+                d[0].media = "lol";
+                e.target.innerText = "Activer";
+            } else {
+                d[0].media = d[3];
+                e.target.innerText = "Désactiver";
+            }
+        };
+        td.appendChild(button);
+        td = document.createElement("td");
+        tr.appendChild(td);
+        td.append(d[0].media);
+        td = document.createElement("td");
+        tr.appendChild(td);
+        td.append(d[1]);
+        td = document.createElement("td");
+        tr.appendChild(td);
+        let a = document.createElement("a");
+        a.href = d[0].href;
+        a.innerText = d[2];
+        td.appendChild(a);
+    });
+    tableContainer.appendChild(table);
+    hohoho.appendChild(closeButton);
+    hohoho.appendChild(tableContainer);
+    document.body.prepend(hohoho);
+
+    
+    //Création du Dragging pour la page 
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    hohoho.addEventListener("mousedown", (evt) => {
+        isDragging = true;
+        offsetX = evt.clientX - hohoho.getBoundingClientRect().left;
+        offsetY = evt.clientY - hohoho.getBoundingClientRect().top;
+        hohoho.style.cursor = "grab";
+    });
+    // document.addEventListener("mousemove", (evt) => {
+    //     if (isDragging) {
+    //         const newX = evt.clientX - offsetX;
+    //         const newY = evt.clientY - offsetY;
+    //         hohoho.style.left = `${newX}px`;
+    //         hohoho.style.top = `${newY}px`;
+    //     }
+    // });
+    window.addEventListener('resize', function(evt) {
+        if (isDragging) {
+            const newX = evt.clientX - offsetX;
+            const newY = evt.clientY - offsetY;
+            hohoho.style.left = `${newX}px`;
+            hohoho.style.top = `${newY}px`;
+        }
+        }, true);
+
+
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        hohoho.style.cursor = "default";
+        console.log(isDragging);
+    });
+    
+})();
