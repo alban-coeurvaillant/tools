@@ -19,3 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Injecter le contenu du head
     injectHeadContent(headContent);
 });
+
+
+const headContent = `
+    <title>Titre Dynamique</title>
+    <meta name="description" content="Ceci est une page avec un head injecté dynamiquement">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://example.com/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+        #content {
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+`;
