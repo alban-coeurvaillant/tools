@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Le head sera rempli dynamiquement -->
+</head>
+<body>
+    <div id="content">Contenu de la page</div>
+    <script src="inject.js"></script>
+</body>
+</html>
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Fonction pour injecter du contenu HTML dans le head
+    function injectHeadContent(content) {
+        const headElement = document.head;
+        headElement.innerHTML = content;
+    }
+
+    // Injecter le contenu du head
+    injectHeadContent(headContent);
+});
