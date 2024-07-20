@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage du code brut avec CodeMirror</title>
+    <!-- Inclure le CSS de CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <style>
+        .code-encart {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exemple d'affichage du code brut</h1>
+    <textarea id="code" class="code-encart">
+<div>
+    <h1>Ceci est un titre</h1>
+    <p>Ceci est un paragraphe.</p>
+</div>
+    </textarea>
+    <!-- Inclure le JavaScript de CodeMirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/xml/xml.min.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "text/html",
+            lineNumbers: true,
+            readOnly: true
+        });
+    </script>
+</body>
+</html>
